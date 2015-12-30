@@ -11,7 +11,7 @@
               $scope.width = 550;
               $scope.height = 550;
               $scope.loaded = false;
-              var sites = d3.range(36).map(function(d) {
+              var sites = d3.range(30).map(function(d) {
                 return [Math.random() * $scope.width, Math.random() * $scope.height];
               });
 

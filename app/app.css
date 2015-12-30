@@ -1,4 +1,6 @@
-
+body {
+  margin: 0 !important;
+}
 .container {
   width : 100vw;
   overflow-y: hidden;
@@ -45,9 +47,30 @@
   padding: 10px;
 }
 
+.bumpleft {
+  margin-left: 50px !important;
+}
+
+#header h1:hover {
+  color: #F5A623;
+}
+
+#bio h3:hover {
+  color : #F5A623;
+  text-decoration: underline;
+}
+
 .dark {
   font-weight: bold;
   color: #1199C3;
+}
+
+.black {
+  color: #484848;
+}
+
+p {
+  color: #484848;
 }
 
 .light {
@@ -62,7 +85,7 @@
 #header {
   background-color: #484848;
   width: 90vw;
-  height: 125px;
+  height: 150px;
   margin: 0;
   padding: 5%;
   margin-bottom: 12px;
@@ -75,10 +98,50 @@
   line-height: 48px;
   display: inline;
   
-};
+}
+
+#skills {
+  list-style-type: none;
+}
+
+#skills li {
+  padding: 5px;
+}
+#workhead, #educationhead, #skillshead, #maphead {
+  color: #F5A623;
+}
+.work-entry, .education-entry {
+  margin-left: 50px;
+}
+
+.work-entry h4, .education-entry h4 {
+  color: #1199C3;
+
+}
+
+
+.date-text {
+  font-style: italic;
+  font-size: 14px;
+  color: #999999;
+  line-height: 16px;
+  float: left;
+}
+
+.location-text {
+  font-style: italic;
+  font-size: 14px;
+  color: #999999;
+  line-height: 16px;
+  float: right;
+  margin-right: 5%;
+  margin-bottom: 5%;
+
+}
+
 
 #title {
-  color: #1199C3;
+  color: #F5A623;
 }
 
 #voronoi {
@@ -104,6 +167,7 @@
   margin-top: 50px;
 }
 
+
 @media screen and (max-width: 1220px) {
   .col-3 {
     width: 90%;
@@ -115,7 +179,7 @@
     text-align: center;
   }
 
-  #voronoi, h4 {
+  #voronoi, .content {
     margin-left: calc(50% - 250px);
   }
 }
