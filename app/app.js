@@ -21,4 +21,7 @@ var App = angular.module('myApp', [
       controller : 'resumeController'
     });
     
-});
+})
+
+
+;

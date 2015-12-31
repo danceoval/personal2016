@@ -167,6 +167,12 @@ p {
   margin-top: 50px;
 }
 
+#map { 
+  height: 400px;
+  width: calc(100% - 100px); 
+  margin-left: 50px;
+  margin-bottom: 25px;
+}
 
 @media screen and (max-width: 1220px) {
   .col-3 {
@@ -184,6 +190,35 @@ p {
   }
 }
 
+@media screen and (max-width: 550px) {
+  .col-3 {
+    width: 90vw;
+    margin-right: 5vw;
+    clear: both;
+  }
+  #header {
+    height: 200px;
+  }
+
+
+  #voronoi {
+    display: none;
+  }
+
+  #title {
+    font-size: 14px;
+    color: #F5A623;
+    clear: both;
+    display: block;
+    text-align: center;
+  }
+
+  .content {
+    display: block;
+    height: auto;
+    width: 80vw;
+  }
+}
 
 
 

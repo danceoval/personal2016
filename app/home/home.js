@@ -34,8 +34,9 @@
               $scope.context = $scope.canvas.node().getContext("2d");                  
 
               //init
-              $scope.redraw(dan, sites);   
+                
               setTimeout(function() {
+                $scope.redraw(dan, sites); 
                 $scope.loaded = true;
                 $scope.$apply();
               }, 500);              
@@ -46,7 +47,7 @@
             //redraw on mousemove
             $scope.redraw = function(pic, sites) {
               var cells = d3.geom.voronoi(sites);
-              //console.log('1');
+              //console.log('1', cells);
               cells.forEach(function(cell) {
                 $scope.context.save();
                 $scope.path(cell);

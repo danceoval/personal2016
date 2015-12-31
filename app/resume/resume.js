@@ -8,9 +8,9 @@
             $scope.init = function() {
               $scope.assembleWork();
               $scope.assembleSchool();
-              $scope.map;
-              //angular.element(document.querySelector('#mapDiv')).append($scope.googleMap);
-              //$scope.initializeMap();
+
+        
+              $scope.initializeMap();
               
               
             };
@@ -29,7 +29,6 @@
             $scope.HTMLschoolLocation = "<div class='location-text'>%data%</div>";
             $scope.HTMLschoolMajor = "<p><br>Major: %data%</p>";
 
-            $scope.googleMap = "<div id='map'></div>";
 
             $scope.work = {
               "jobs": [
@@ -133,63 +132,56 @@
           };
 
           $scope.initializeMap = function() {
+              var mapOptions = {
+                  zoom: 2,
+                  center: new google.maps.LatLng(40.0000, -98.0000)
+              }
 
-            var locations;        
+            $scope.map =  new google.maps.Map(document.getElementById('map'), mapOptions);
+            var locations = [];
+              
+            var service = new google.maps.places.PlacesService($scope.map);
+            
+            for (var school in $scope.education.schools) {
+              locations.push($scope.education.schools[school].location);
+            }
 
-            var mapOptions = {
-              disableDefaultUI: true
-            };
+            for (var job in $scope.work.jobs) {
+              locations.push($scope.work.jobs[job].location);
+            }
 
-            $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
-            $scope.locationFinder();
-            $scope.pinPoster($scope.locations);
+            $scope.locations = locations;
+            //console.log($scope.locations);
+            //pin marker
+            for (var i = 0; i < $scope.locations.length; ++i) {
+
+              // the search request object
+              var request = {
+                query: $scope.locations[i]
+              }
+
+              // search for data
+              service.textSearch(request, $scope.callback);
+            }
           };
+           
     
-        $scope.locationFinder = function() {
-          
-          // initializes an empty array
-          var locations = [];
-          
-          // iterates through school locations and appends each location to
-          // the locations array
-          for (var school in $scope.education.schools) {
-            locations.push($scope.education.schools[school].location);
-          }
-
-          // iterates through work locations and appends each location to
-          // the locations array
-          for (var job in $scope.work.jobs) {
-            locations.push($scope.work.jobs[job].location);
-          }
-
-          $scope.locations = locations;
-        };
-
+           
+      
         //map marker for google map
         $scope.createMapMarker = function(placeData) {
-          console.log(placeData);
-          var lat = placeData.geometry.location.lat;  // latitude from the place service
-          var lon = placeData.geometry.location.lng;  // longitude from the place service
-          var name = placeData.formatted_address;   // name of the place from the place service
-          var bounds = $scope.map.mapBounds;           // current boundaries of the map window
-          console.log('b', lat, lon)
+        
+          var lat = placeData.geometry.location.lat();  // latitude from the place service
+          var lon = placeData.geometry.location.lng();  // longitude from the place service
+          var location = new google.maps.LatLng(lat, lon);
+          var name = placeData.formatted_address;
           var marker = new google.maps.Marker({
-            map: $scope.map,
-            position: placeData.geometry.location,
-            title: name
+             position: location,
+             title: name
           });
-          
-       
-          var infoWindow = new google.maps.InfoWindow({
-            content: name
-          });
+          marker.setMap($scope.map);
 
-          //place pin on map
-          bounds.extend(new google.maps.LatLng(lat, lon));
-          // fit the map to the new marker
-          $scope.map.fitBounds(bounds);
-          // center the map
-          $scope.map.setCenter(bounds.getCenter());
+         
         }
 
         /*
@@ -197,38 +189,17 @@
         If so, it creates a new map marker for that location.
         */
         $scope.callback = function(results, status) {
+
           if (status == google.maps.places.PlacesServiceStatus.OK) {
             //console.log(results)
-            $scope.createMapMarker(results[0])
+            var places = results[0];
+            $scope.createMapMarker(places);
           }
-
+            
+   
         };
 
-        /*
-        pinPoster(locations) takes in the array of locations created by locationFinder()
-        and fires off Google place searches for each location
-        */
-        $scope.pinPoster = function(locations) {
-
-          // creates a Google place search service object. PlacesService does the work of
-          // actually searching for location data.
-          var service = new google.maps.places.PlacesService($scope.map);
-          
-          // Iterates through the array of locations, creates a search object for each location
-          console.log($scope.locations);
-          for (var i = 0; i < $scope.locations.length; ++i) {
-
-            // the search request object
-            var request = {
-              query: $scope.locations[i]
-            }
-
-            // Actually searches the Google Maps API for location data and runs the callback 
-            // function with the search results after each search.
-            service.textSearch(request, $scope.callback);
-          }
-        };
-
+       
 
          
 
